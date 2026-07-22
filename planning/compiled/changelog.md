@@ -13,3 +13,68 @@ Append-only log of changes applied to `planning/compiled/`.
 - **Assumptions / open questions:**
 - **Notes on impact (optional):**
   - (Metrics, migrations, compatibility, sequencing)
+
+### 2026-07-22 — Compile habit tracker inbox entry into first plan/backlog, including an AI Habit Coach agent and accuracy evals
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Filled in `plan.md`'s overview, north star outcomes, non-goals, current
+    phase, five milestones (walking skeleton, habit CRUD, daily check-in, AI
+    Habit Coach agent, coach accuracy evaluation), dependencies/constraints
+    (TypeScript+React frontend, Java Spring Boot backend, MySQL, Flyway
+    migrations, docker-compose for local MySQL only, the Anthropic Java SDK
+    + `claude-sonnet-5` for the coach, CAT Cafe for coach evals), and risks
+    with mitigations.
+  - Added four P0 backlog items (backend walking skeleton, frontend
+    walking skeleton, habit CRUD backend, habit CRUD frontend), two P1 items
+    (daily check-in backend, daily check-in frontend), two P2 items (Habit
+    Coach backend tool-calling integration, Habit Coach frontend chat UI),
+    and one P3 item (coach accuracy eval using CAT Cafe), each with
+    goal/scope/acceptance criteria/notes/validation.
+  - Added an Icebox list covering history, streaks, notifications,
+    multi-user/auth, sync, charts, chat-history persistence, and
+    coach-outside-the-app channels — matching the inbox entry's
+    non-committal/excluded ideas plus new exclusions from the coach scope.
+- **Rationale:** The inbox entry's open questions (platform, fidelity,
+  definition of "done") were answered directly by Jessie: a real, working
+  mobile-friendly TypeScript+Java+MySQL web app, binary check-in. Jessie
+  then clarified the actual learning goal was to implement an AI agent
+  themselves, not just use a coding assistant to build a CRUD app — so the
+  app now includes a chat-based "Habit Coach" using tool-calling against the
+  app's own habit/check-in logic (Claude Sonnet 5, chosen for cost given
+  this is a personal project), plus an explicit accuracy target (90%
+  tool-selection accuracy) measured via CAT Cafe, Artium's eval-workshop
+  tooling, rather than relying on manual spot-checks. This compilation
+  captures all of that in canonical planning and sequences work as a
+  walking-skeleton-first build so a coding agent can execute small,
+  independently verifiable slices.
+- **Assumptions / open questions:**
+  - Assumes Java 17/21 + Maven + Spring Boot and Vite + React + TypeScript
+    as the specific toolchain within the stack Jessie specified; this
+    toolchain choice was not recorded in a separate inbox entry — flagged
+    here for confirmation during this planning session.
+  - Assumes docker-compose is acceptable for local MySQL (requires Docker
+    Desktop installed) — not yet confirmed with Jessie.
+  - The coach's specific tool surface (`get_habits`, `add_habit`,
+    `delete_habit`, `set_checkin`) is a design choice made during this
+    compilation, not literally specified in the inbox entry — flagged for
+    Jessie to review.
+  - The eval dataset size (~20-30 examples) for the P3 CAT Cafe item is a
+    starting-point estimate, not a hard requirement — may need to grow if
+    90% accuracy isn't reached or isn't statistically meaningful at that
+    size.
+  - Open: whether a future inbox entry is needed before P1/P2/P3 work
+    starts, or whether this compilation is sufficient to let a coding agent
+    proceed through all of them in sequence.
+- **Notes on impact (optional):**
+  - This is the first-ever compiled plan/backlog for this repo; no prior
+    content is being overwritten, only placeholders replaced.
+  - Introduces new top-level directories not yet reflected in
+    `docs/repo_structure.md` (`backend/`, `frontend/`, root
+    `docker-compose.yml`) — that doc should be updated in the same PR that
+    adds these directories.
+  - Introduces a new external paid dependency (Anthropic API usage) and a
+    secret (`ANTHROPIC_API_KEY`) not present in earlier milestones.
+  - Introduces a dependency on a separate external tool/repo (CAT Cafe /
+    `eval-workshop`) purely for dev-time evaluation of the coach — not part
+    of this app's own runtime or deployment.
