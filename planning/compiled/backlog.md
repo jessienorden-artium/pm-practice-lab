@@ -53,7 +53,7 @@ in a bounded task, with clear acceptance criteria.
     runs `docker compose stop db` and reloads the same URL, confirming the
     response changes to reflect the database is no longer reachable.
 
-- [ ] Frontend walking skeleton hitting backend health check
+- [x] Frontend walking skeleton hitting backend health check
   - **Goal:** Stand up a minimal TypeScript + React frontend that calls the
     backend's health-check endpoint and visibly displays whether the
     backend/database are reachable.
@@ -67,11 +67,11 @@ in a bounded task, with clear acceptance criteria.
     - CORS must be enabled on the backend for `http://localhost:5173`
       (coordinate with the backend health-check item).
   - **Acceptance criteria:**
-    - [ ] Running `npm install && npm run dev` inside `frontend/` starts a
+    - [x] Running `npm install && npm run dev` inside `frontend/` starts a
       dev server on `localhost:5173` without errors.
-    - [ ] With backend and MySQL both running, opening the page shows a
+    - [x] With backend and MySQL both running, opening the page shows a
       visible message confirming the backend/database are reachable.
-    - [ ] With the backend stopped (frontend still running), reloading the
+    - [x] With the backend stopped (frontend still running), reloading the
       page shows a visible "unreachable" message instead of a blank page or
       unhandled error.
   - **Notes (paths/constraints):** `frontend/` (new top-level dir). Depends

@@ -103,3 +103,25 @@ Append-only log of changes applied to `planning/compiled/`.
     earlier, unrelated `eval-workshop` (CAT Cafe) exercise; stopped those
     containers (not removed — restart with `docker start` when picking up
     the P3 coach-eval item) to free the port for this backend.
+
+### 2026-07-23 — Execute P0-2: frontend walking skeleton
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P0-2 ("Frontend walking skeleton hitting backend
+    health check") and its three acceptance criteria complete in
+    `backlog.md`.
+- **Rationale:** Scaffolded `frontend/` (Vite + React + TypeScript),
+  replaced the template `App.tsx` with a minimal page that fetches
+  `GET /api/health` on load and displays a plain-text connected/unreachable
+  message, and added a `CorsConfig` bean to the backend allowing
+  `http://localhost:5173`. Verified in an actual browser (not just curl):
+  the page shows "Backend: connected" with the backend running, and
+  "Backend: unreachable" (no blank page or crash) with the backend stopped,
+  recovering once the backend restarts.
+- **Assumptions / open questions:** None new.
+- **Notes on impact (optional):**
+  - Added `backend/src/main/java/com/habittracker/config/CorsConfig.java` —
+    a general `/api/**` CORS mapping for `http://localhost:5173`, intended
+    to cover future endpoints (habit CRUD, check-ins, coach) too, not just
+    the health check.
