@@ -154,7 +154,7 @@ in a bounded task, with clear acceptance criteria.
 
 ### P1
 
-- [ ] Daily check-in — backend API
+- [x] Daily check-in — backend API
   - **Goal:** Allow each habit to be marked done/not-done for "today" via
     the backend API, with the state persisted in MySQL and readable per
     habit.
@@ -172,14 +172,14 @@ in a bounded task, with clear acceptance criteria.
       date — no timezone handling in scope for v1.
     - No endpoints for past dates, history, or streak calculation.
   - **Acceptance criteria:**
-    - [ ] `PUT .../checkins/today` with `{"done": true}` for a habit with no
+    - [x] `PUT .../checkins/today` with `{"done": true}` for a habit with no
       prior check-in today creates a new row and returns the updated state.
-    - [ ] Calling the same endpoint again the same day with
+    - [x] Calling the same endpoint again the same day with
       `{"done": false}` updates the same row (does not create a second row).
-    - [ ] `GET .../checkins/today` for a habit with no check-in yet today
+    - [x] `GET .../checkins/today` for a habit with no check-in yet today
       returns `{"done": false}` without error (not a 404).
-    - [ ] `PUT` for a non-existent habit id returns 404.
-    - [ ] Restarting the backend process preserves today's check-in state.
+    - [x] `PUT` for a non-existent habit id returns 404.
+    - [x] Restarting the backend process preserves today's check-in state.
   - **Notes (paths/constraints):**
     `backend/src/main/resources/db/migration/V3__create_habit_checkins_table.sql`,
     new checkin controller/service/repository under the habit package.

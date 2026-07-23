@@ -177,3 +177,30 @@ Append-only log of changes applied to `planning/compiled/`.
     frontend processes cleanly resolved it — treated as a transient
     environment issue, not an application bug, since it didn't reproduce
     after a clean restart.
+
+### 2026-07-23 — Execute P1-1: daily check-in backend API (+ a delete-habit bug fix)
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P1-1 ("Daily check-in — backend API") and its five
+    acceptance criteria complete in `backlog.md`.
+- **Rationale:** Added `PUT`/`GET /api/habits/{id}/checkins/today` (Spring
+  Data JPA + `V3__create_habit_checkins_table.sql`), built test-first —
+  each acceptance criterion (create on first PUT, upsert on repeat PUT via
+  the table's own unique constraint catching a naive always-insert bug,
+  GET defaults to `false` instead of 404, PUT on a missing habit returns
+  404) got a failing test confirmed red before its minimal implementation.
+  Also validated manually via `curl` against the dev database, including a
+  backend restart to confirm persistence.
+- **Assumptions / open questions:** None new.
+- **Notes on impact (optional):**
+  - **Bug found and fixed, out of this item's original scope but blocking
+    real use:** deleting a habit that had check-in rows crashed with a 500
+    (MySQL foreign key violation — `habits` is a parent row `habit_checkins`
+    still referenced). Fixed via a new `V4__cascade_delete_habit_checkins.sql`
+    migration (`ON DELETE CASCADE` on the foreign key), confirmed with a
+    failing test reproducing the crash before the fix, per the "propose the
+    smallest clarification/experiment" guidance in `AGENTS.md` when a gap
+    like this surfaces mid-work. This also means: deleting a habit now
+    silently deletes its check-in history too — consistent with v1 having
+    no history feature to preserve, but worth knowing if that changes later.

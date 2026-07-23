@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -88,6 +89,18 @@ class HabitControllerTest {
     void deleteHabit_nonexistentId_returns404() throws Exception {
         mockMvc.perform(delete("/api/habits/999999999"))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteHabit_withExistingCheckin_succeedsInsteadOf500() throws Exception {
+        long id = createHabit("Stretch");
+        mockMvc.perform(put("/api/habits/" + id + "/checkins/today")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"done\":true}"))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(delete("/api/habits/" + id))
+                .andExpect(status().isNoContent());
     }
 
     private long createHabit(String name) throws Exception {
