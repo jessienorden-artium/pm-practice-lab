@@ -149,3 +149,31 @@ Append-only log of changes applied to `planning/compiled/`.
   - Backend CRUD logic was built test-first (red → green per acceptance
     criterion) rather than writing implementation and tests together, per
     Jessie's request.
+
+### 2026-07-23 — Execute P0-4: habit CRUD frontend UI
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P0-4 ("Habit CRUD — frontend UI") and its five
+    acceptance criteria complete in `backlog.md`.
+- **Rationale:** Added a `Habits` component (add/list/delete, empty-state
+  message, blank-name rejection) to the frontend, built test-first with
+  Vitest + React Testing Library — each acceptance criterion got a failing
+  component test confirmed red before the minimal implementation was added.
+  Manually validated in an actual Chrome browser against the real running
+  backend/database: add, reload-persists, delete, reload-stays-deleted, and
+  the empty state, all confirmed visually.
+- **Assumptions / open questions:** None new.
+- **Notes on impact (optional):**
+  - Set up frontend testing infrastructure (Vitest, React Testing Library,
+    jsdom) — none existed before. Pinned `vitest` to the latest release
+    (^4.1.10) rather than an older version, to avoid a vulnerable transitive
+    `esbuild` dependency.
+  - During manual browser validation, a `DELETE` request returned a
+    spurious `503` on a backend process that had been running ~28 hours
+    with long idle/sleep gaps (visible in logs as HikariCP "thread
+    starvation or clock leap" warnings); the delete had actually succeeded
+    server-side despite the error response. Restarting both the backend and
+    frontend processes cleanly resolved it — treated as a transient
+    environment issue, not an application bug, since it didn't reproduce
+    after a clean restart.

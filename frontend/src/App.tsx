@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import Habits from './Habits'
 
 type HealthStatus = 'checking' | 'connected' | 'unreachable'
 
@@ -30,6 +31,7 @@ function App() {
     <main>
       <h1>Habit Tracker</h1>
       <p>{message}</p>
+      <Habits />
     </main>
   )
 }

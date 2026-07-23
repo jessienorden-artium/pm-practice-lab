@@ -120,7 +120,7 @@ in a bounded task, with clear acceptance criteria.
     gone. Jessie restarts the backend and calls `GET` again to confirm
     remaining habits survive the restart.
 
-- [ ] Habit CRUD — frontend UI (add / list / delete)
+- [x] Habit CRUD — frontend UI (add / list / delete)
   - **Goal:** Let a user add, view, and delete habits from the browser,
     using the backend CRUD API.
   - **Scope:**
@@ -133,15 +133,15 @@ in a bounded task, with clear acceptance criteria.
       one above.").
     - No check-in UI yet, no styling polish beyond basic readability.
   - **Acceptance criteria:**
-    - [ ] Typing a name and clicking "Add" causes the new habit to appear in
+    - [x] Typing a name and clicking "Add" causes the new habit to appear in
       the visible list without a full page reload.
-    - [ ] Reloading the browser (F5) still shows the habit (proving it
+    - [x] Reloading the browser (F5) still shows the habit (proving it
       reads from the backend/DB, not local state only).
-    - [ ] Clicking "Delete" removes a habit from the visible list, and
+    - [x] Clicking "Delete" removes a habit from the visible list, and
       reloading confirms it stays deleted.
-    - [ ] Attempting to add a habit with a blank name does not create an
+    - [x] Attempting to add a habit with a blank name does not create an
       empty-named entry (button disabled or an inline message appears).
-    - [ ] With zero habits, the page shows the "No habits yet" message
+    - [x] With zero habits, the page shows the "No habits yet" message
       instead of a blank area.
   - **Notes (paths/constraints):** `frontend/src/` — a single `App.tsx` or
     small components (`HabitList`, `HabitForm`); no routing library needed.
