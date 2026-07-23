@@ -191,7 +191,7 @@ in a bounded task, with clear acceptance criteria.
     way and confirms `GET` reflects the change. Jessie restarts the backend
     and calls `GET` again to confirm the state survived the restart.
 
-- [ ] Daily check-in — frontend UI
+- [x] Daily check-in — frontend UI
   - **Goal:** Let a user mark each habit as done/not-done for today directly
     from the habit list, reflecting what's stored in the backend.
   - **Scope:**
@@ -201,13 +201,13 @@ in a bounded task, with clear acceptance criteria.
     - Toggling it calls `PUT .../checkins/today` with the new value.
     - No history view, per-day navigation, or calendar/streak visuals.
   - **Acceptance criteria:**
-    - [ ] On page load, each habit's toggle reflects its actual stored
+    - [x] On page load, each habit's toggle reflects its actual stored
       today-state (checked if `done=true`, unchecked otherwise).
-    - [ ] Clicking an unchecked toggle marks it checked and persists —
+    - [x] Clicking an unchecked toggle marks it checked and persists —
       reloading shows it still checked.
-    - [ ] Clicking a checked toggle marks it unchecked and persists —
+    - [x] Clicking a checked toggle marks it unchecked and persists —
       reloading shows it still unchecked.
-    - [ ] Adding a brand-new habit shows its toggle as unchecked by default.
+    - [x] Adding a brand-new habit shows its toggle as unchecked by default.
   - **Notes (paths/constraints):** `frontend/src/` — extend the habit list
     item with a checkbox bound to the check-in endpoints. Depends on the
     check-in backend API and the habit CRUD frontend.

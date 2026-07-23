@@ -204,3 +204,20 @@ Append-only log of changes applied to `planning/compiled/`.
     like this surfaces mid-work. This also means: deleting a habit now
     silently deletes its check-in history too — consistent with v1 having
     no history feature to preserve, but worth knowing if that changes later.
+
+### 2026-07-23 — Execute P1-2: daily check-in frontend UI
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P1-2 ("Daily check-in — frontend UI") and its four
+    acceptance criteria complete in `backlog.md`.
+- **Rationale:** Added a checkbox per habit in the `Habits` component,
+  fetching each habit's today check-in status after the list loads and
+  calling `PUT .../checkins/today` on toggle, built test-first — each
+  acceptance criterion got a failing component test confirmed red before
+  its implementation. Manually validated in Chrome against the real
+  backend/database: check → reload persists, uncheck → reload persists,
+  and a newly added habit defaults to an unchecked box.
+- **Assumptions / open questions:** None new.
+- **Notes on impact (optional):** Milestone 3 (Daily binary check-in) is
+  now complete — both P1-1 and P1-2 done and validated.

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 type Habit = {
   id: number
   name: string
+  doneToday: boolean
 }
 
 const API_BASE = 'http://localhost:8080/api/habits'
@@ -14,7 +15,16 @@ function Habits() {
   useEffect(() => {
     fetch(API_BASE)
       .then((response) => response.json())
-      .then((data: Habit[]) => setHabits(data))
+      .then((data: Array<{ id: number; name: string }>) =>
+        Promise.all(
+          data.map((habit) =>
+            fetch(`${API_BASE}/${habit.id}/checkins/today`)
+              .then((response) => response.json())
+              .then((checkin: { done: boolean }) => ({ ...habit, doneToday: checkin.done })),
+          ),
+        ),
+      )
+      .then((habitsWithCheckins: Habit[]) => setHabits(habitsWithCheckins))
   }, [])
 
   function handleAdd() {
@@ -26,9 +36,25 @@ function Habits() {
       body: JSON.stringify({ name: newHabitName }),
     })
       .then((response) => response.json())
-      .then((created: Habit) => {
-        setHabits((current) => [...current, created])
+      .then((created: { id: number; name: string }) => {
+        setHabits((current) => [...current, { ...created, doneToday: false }])
         setNewHabitName('')
+      })
+  }
+
+  function handleToggle(id: number, done: boolean) {
+    fetch(`${API_BASE}/${id}/checkins/today`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ done }),
+    })
+      .then((response) => response.json())
+      .then((checkin: { done: boolean }) => {
+        setHabits((current) =>
+          current.map((habit) =>
+            habit.id === id ? { ...habit, doneToday: checkin.done } : habit,
+          ),
+        )
       })
   }
 
@@ -58,7 +84,14 @@ function Habits() {
         <ul>
           {habits.map((habit) => (
             <li key={habit.id}>
-              {habit.name}
+              <label>
+                <input
+                  type="checkbox"
+                  checked={habit.doneToday}
+                  onChange={(event) => handleToggle(habit.id, event.target.checked)}
+                />
+                {habit.name}
+              </label>
               <button
                 type="button"
                 aria-label={`Delete ${habit.name}`}
