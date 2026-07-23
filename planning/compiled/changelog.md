@@ -78,3 +78,28 @@ Append-only log of changes applied to `planning/compiled/`.
   - Introduces a dependency on a separate external tool/repo (CAT Cafe /
     `eval-workshop`) purely for dev-time evaluation of the coach — not part
     of this app's own runtime or deployment.
+
+### 2026-07-23 — Execute P0-1: backend walking skeleton (health check + DB connectivity)
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P0-1 ("Backend walking skeleton — health check + DB
+    connectivity") and its four acceptance criteria complete in
+    `backlog.md`.
+- **Rationale:** Implemented and validated per the backlog item's own
+  Validation steps: `backend/` (Spring Boot, Java 21, Maven), a Flyway
+  baseline migration, `GET /api/health` backed by a live `SELECT 1` against
+  MySQL, and a root `docker-compose.yml` running MySQL. Confirmed the
+  health check reports `connected` with MySQL running and `disconnected`
+  (HTTP 200, live check) with MySQL stopped, then confirmed it recovers
+  once MySQL is restarted.
+- **Assumptions / open questions:** None beyond what's already flagged
+  above (toolchain versions, docker-compose requiring Docker Desktop).
+- **Notes on impact (optional):**
+  - Installed Java 21 (Homebrew `openjdk@21`) and Maven locally, and fixed
+    `~/.zshrc` so `java`/`mvn` resolve to Java 21 rather than an unrelated
+    newer JDK Maven had pulled in as a dependency.
+  - Discovered port 8080 was occupied by leftover containers from an
+    earlier, unrelated `eval-workshop` (CAT Cafe) exercise; stopped those
+    containers (not removed — restart with `docker start` when picking up
+    the P3 coach-eval item) to free the port for this backend.

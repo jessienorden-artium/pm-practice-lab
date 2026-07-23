@@ -24,6 +24,11 @@ build/
 *~
 .cursor/
 
+# Java / Maven
+backend/target/
+*.class
+hs_err_pid*
+
 # Project-specific
 planning/inbox/*.draft.md
 backlog-tracking/exports/

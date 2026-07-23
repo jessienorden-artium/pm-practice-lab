@@ -17,7 +17,7 @@ in a bounded task, with clear acceptance criteria.
 
 ### P0
 
-- [ ] Backend walking skeleton — health check + DB connectivity
+- [x] Backend walking skeleton — health check + DB connectivity
   - **Goal:** Stand up a minimal Java Spring Boot backend that starts
     successfully, connects to a local MySQL database, and exposes a
     health-check endpoint proving the DB connection is alive.
@@ -33,13 +33,13 @@ in a bounded task, with clear acceptance criteria.
       (`mysql:8`), a named volume for persistence, and env vars matching the
       backend's `application.yml`.
   - **Acceptance criteria:**
-    - [ ] Running `docker compose up -d` starts a MySQL container reachable
+    - [x] Running `docker compose up -d` starts a MySQL container reachable
       on localhost:3306.
-    - [ ] Running the backend (`mvn spring-boot:run` from `backend/`) starts
+    - [x] Running the backend (`mvn spring-boot:run` from `backend/`) starts
       without errors and applies the Flyway migration on startup.
-    - [ ] `GET http://localhost:8080/api/health` returns HTTP 200 with a
+    - [x] `GET http://localhost:8080/api/health` returns HTTP 200 with a
       JSON body indicating the database is connected, while MySQL is running.
-    - [ ] Stopping the MySQL container and hitting `/api/health` again
+    - [x] Stopping the MySQL container and hitting `/api/health` again
       returns a response indicating the database is not reachable, proving
       the check is live rather than hardcoded.
   - **Notes (paths/constraints):** `backend/` (new top-level dir),
