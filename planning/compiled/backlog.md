@@ -82,7 +82,7 @@ in a bounded task, with clear acceptance criteria.
     message. Jessie stops the backend process and reloads the page,
     confirming it now shows a clear "unreachable" message.
 
-- [ ] Habit CRUD — backend API (add / list / delete)
+- [x] Habit CRUD — backend API (add / list / delete)
   - **Goal:** Allow habits (name only, no check-in state yet) to be created,
     listed, and deleted through a backend REST API backed by MySQL.
   - **Scope:**
@@ -95,18 +95,18 @@ in a bounded task, with clear acceptance criteria.
     - Reject `POST` with an empty/blank name (HTTP 400).
     - No update/edit endpoint, no check-in fields.
   - **Acceptance criteria:**
-    - [ ] `POST /api/habits` with a valid name returns HTTP 201 and the
+    - [x] `POST /api/habits` with a valid name returns HTTP 201 and the
       created habit (with an id) as JSON.
-    - [ ] `POST /api/habits` with an empty/missing name returns HTTP 400 and
+    - [x] `POST /api/habits` with an empty/missing name returns HTTP 400 and
       does not create a row.
-    - [ ] `GET /api/habits` returns all previously created habits, including
+    - [x] `GET /api/habits` returns all previously created habits, including
       ones from an earlier request (proving persistence, not in-memory
       only).
-    - [ ] `DELETE /api/habits/{id}` for an existing id removes it — a
+    - [x] `DELETE /api/habits/{id}` for an existing id removes it — a
       subsequent `GET /api/habits` no longer includes it.
-    - [ ] `DELETE /api/habits/{id}` for a non-existent id returns 404, not a
+    - [x] `DELETE /api/habits/{id}` for a non-existent id returns 404, not a
       500 error.
-    - [ ] Restarting the backend process (without touching the database)
+    - [x] Restarting the backend process (without touching the database)
       preserves previously created habits.
   - **Notes (paths/constraints):**
     `backend/src/main/resources/db/migration/V2__create_habits_table.sql`,

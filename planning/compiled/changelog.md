@@ -125,3 +125,27 @@ Append-only log of changes applied to `planning/compiled/`.
     a general `/api/**` CORS mapping for `http://localhost:5173`, intended
     to cover future endpoints (habit CRUD, check-ins, coach) too, not just
     the health check.
+
+### 2026-07-23 — Execute P0-3: habit CRUD backend API
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P0-3 ("Habit CRUD — backend API") and its six
+    acceptance criteria complete in `backlog.md`.
+- **Rationale:** Implemented `POST /api/habits`, `GET /api/habits`, and
+  `DELETE /api/habits/{id}` (Spring Data JPA + a new `V2__create_habits_table.sql`
+  Flyway migration), built test-first: each acceptance criterion got a
+  failing integration test (via Testcontainers + a real MySQL) confirmed
+  red before the minimal implementation was added to turn it green. Also
+  validated manually via `curl` against the running dev backend/database,
+  including a backend restart to confirm persistence.
+- **Assumptions / open questions:** None new.
+- **Notes on impact (optional):**
+  - Overrode the Testcontainers version pinned by Spring Boot 3.3.5's BOM
+    (1.19.8 → 1.21.4) in `backend/pom.xml` — the older version was
+    incompatible with this machine's Docker Desktop and caused every
+    Testcontainers-based test to fail with a `BadRequestException` before
+    any container could start.
+  - Backend CRUD logic was built test-first (red → green per acceptance
+    criterion) rather than writing implementation and tests together, per
+    Jessie's request.
