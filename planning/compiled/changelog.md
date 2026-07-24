@@ -221,3 +221,52 @@ Append-only log of changes applied to `planning/compiled/`.
 - **Assumptions / open questions:** None new.
 - **Notes on impact (optional):** Milestone 3 (Daily binary check-in) is
   now complete — both P1-1 and P1-2 done and validated.
+
+### 2026-07-24 — Execute P2-1: AI Habit Coach backend tool-calling integration
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P2-1 ("AI Habit Coach — backend tool-calling
+    integration") and its four acceptance criteria complete in `backlog.md`.
+- **Rationale:** Added `com.anthropic:anthropic-java` (2.51.0) to
+  `backend/pom.xml`, a `coach` package (`AnthropicClientConfig`,
+  `ToolDefinitions`, `ToolDispatcher`, `CoachService`, `CoachController`),
+  and `POST /api/coach/messages`. The pure business logic (`ToolDispatcher`
+  — mapping each of the four tools to the existing `HabitService`/
+  `HabitCheckinService` calls) was built test-first, one red→green cycle
+  per tool. The SDK orchestration loop (`CoachService` — the tool-use
+  request/response cycle itself) was developed by exploring the actual
+  installed SDK jar directly (`javap` against the local `~/.m2` jar, since
+  this SDK generation's package layout/shapes differ from older cached
+  docs) and confirmed via tests using realistic JSON-deserialized canned
+  responses, then validated for real against the live Anthropic API:
+  asking the coach in plain English to add a habit, check it off, and list
+  habits all worked and were confirmed by querying the actual database
+  afterward — not just trusting the assistant's reply text.
+- **Assumptions / open questions:**
+  - Request/response wire format for the frontend (P2-2) to implement:
+    `POST /api/coach/messages` takes `{"message": string, "history":
+    [{"role": "user"|"assistant", "content": string}, ...] | null}` and
+    returns `{"reply": string, "history": [...]}` — the frontend should
+    resend the returned `history` array on the next call. This is a design
+    decision made during implementation, not literally specified in the
+    inbox entry or original P2-1 scope text — flagged for review once
+    P2-2 is underway.
+  - `server.error.include-message: always` was added to `application.yml`
+    so the coach's descriptive error messages (e.g. "Habit Coach is
+    unavailable: ...") are visible in the HTTP response body, not just
+    server logs — this applies API-wide, not just to the coach endpoint.
+- **Notes on impact (optional):**
+  - **Security incident during setup (not a code issue):** while helping
+    Jessie set `ANTHROPIC_API_KEY` locally, an assistant-run `cat ~/.zshenv`
+    printed the real key value into the conversation. Jessie rotated the
+    key immediately (revoked + issued a new one via the Anthropic console).
+    Going forward, verify env vars are set via presence/length-only checks
+    (`[ -n "$VAR" ]`, `${#VAR}`) rather than printing file contents or
+    values that may contain secrets.
+  - Overrode the Anthropic Java SDK's response-object builders as a testing
+    approach: they require every field explicitly touched (even ones that
+    read as optional) before `.build()` succeeds, so canned test responses
+    are built via `ObjectMappers.jsonMapper().readValue(json, Message.class)`
+    instead — deserializing realistic API JSON, which tolerates missing
+    fields the way genuine responses do.

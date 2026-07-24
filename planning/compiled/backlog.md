@@ -218,7 +218,7 @@ in a bounded task, with clear acceptance criteria.
 
 ### P2
 
-- [ ] AI Habit Coach — backend tool-calling integration
+- [x] AI Habit Coach — backend tool-calling integration
   - **Goal:** Let a user manage habits and check-ins by chatting in natural
     language with an AI agent that actually performs the requested action
     via tool calls against the app's own habit/check-in logic.
@@ -243,16 +243,16 @@ in a bounded task, with clear acceptance criteria.
     - No server-side chat storage — conversation state lives entirely in
       the request/response round-trip.
   - **Acceptance criteria:**
-    - [ ] Sending `{"message": "add a habit called Drink Water"}` (with
+    - [x] Sending `{"message": "add a habit called Drink Water"}` (with
       empty prior history) to `/api/coach/messages` results in a new habit
       named "Drink Water" existing in `GET /api/habits` afterward.
-    - [ ] Sending a message asking to check off an existing habit by name
+    - [x] Sending a message asking to check off an existing habit by name
       results in that habit's `GET .../checkins/today` reflecting
       `"done": true` afterward.
-    - [ ] Sending a message asking "what habits do I have" returns assistant
+    - [x] Sending a message asking "what habits do I have" returns assistant
       text that accurately lists the habits currently in the database (not
       a stale or hallucinated list).
-    - [ ] If `ANTHROPIC_API_KEY` is not set when the backend starts, the
+    - [x] If `ANTHROPIC_API_KEY` is not set when the backend starts, the
       coach endpoint fails clearly (e.g. a 500 with a descriptive error) at
       request time rather than silently doing nothing.
   - **Notes (paths/constraints):** `backend/pom.xml`, new
