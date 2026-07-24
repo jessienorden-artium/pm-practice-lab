@@ -267,7 +267,7 @@ in a bounded task, with clear acceptance criteria.
     the tool call actually executed against the database, not just a
     plausible-sounding reply.
 
-- [ ] AI Habit Coach — frontend chat UI
+- [x] AI Habit Coach — frontend chat UI
   - **Goal:** Let a user talk to the Habit Coach from the browser and see
     its actions reflected in the regular habit list/check-in UI.
   - **Scope:**
@@ -280,13 +280,13 @@ in a bounded task, with clear acceptance criteria.
     - No markdown rendering, streaming, or chat history persistence needed
       for v1 — plain text messages are enough.
   - **Acceptance criteria:**
-    - [ ] Typing "add a habit called Read" into the chat and sending it
+    - [x] Typing "add a habit called Read" into the chat and sending it
       shows an assistant reply, and "Read" appears in the regular habit
       list without a manual page reload.
-    - [ ] Typing a message to check off an existing habit results in that
+    - [x] Typing a message to check off an existing habit results in that
       habit's checkbox becoming checked in the regular list, without a
       manual reload.
-    - [ ] Reloading the browser clears the chat panel's message history
+    - [x] Reloading the browser clears the chat panel's message history
       (expected — no persistence in v1) but the habit list/check-ins remain
       correct, since those are backend-persisted.
   - **Notes (paths/constraints):** `frontend/src/` — a new `Coach` or

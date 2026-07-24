@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import Habits from './Habits'
+import Coach from './Coach'
 
 type HealthStatus = 'checking' | 'connected' | 'unreachable'
 
 function App() {
   const [status, setStatus] = useState<HealthStatus>('checking')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     fetch('http://localhost:8080/api/health')
@@ -31,7 +33,8 @@ function App() {
     <main>
       <h1>Habit Tracker</h1>
       <p>{message}</p>
-      <Habits />
+      <Habits key={refreshKey} />
+      <Coach onAction={() => setRefreshKey((current) => current + 1)} />
     </main>
   )
 }

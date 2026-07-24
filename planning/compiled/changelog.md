@@ -270,3 +270,35 @@ Append-only log of changes applied to `planning/compiled/`.
     are built via `ObjectMappers.jsonMapper().readValue(json, Message.class)`
     instead — deserializing realistic API JSON, which tolerates missing
     fields the way genuine responses do.
+
+### 2026-07-24 — P2-2 complete: AI Habit Coach frontend chat UI
+
+- **Source inbox files:** `planning/inbox/2026-07-21-1638_claude-discussion_habit-tracker-mock-project.md`
+- **Change summary:**
+  - Marked backlog item P2-2 ("AI Habit Coach — frontend chat UI") and its
+    three acceptance criteria complete in `backlog.md`. Milestone 4 (AI
+    Habit Coach agent) in `plan.md` is now fully complete end to end.
+- **Rationale:** Built `frontend/src/Coach.tsx` (message list, text input,
+  send button) test-first across three red→green cycles: showing the
+  assistant's reply after sending a message, calling an `onAction` callback
+  after a successful reply, and correctly resending the growing
+  conversation history (not just the latest message) on each subsequent
+  send. Wired `Coach` into `App.tsx` via a `refreshKey` counter — `Coach`'s
+  `onAction` increments it, and `<Habits key={refreshKey} />` remounts to
+  refetch — itself driven by a failing `App.test.tsx` written first, which
+  asserted the habit list refetches after a coach action. Validated for
+  real in the browser against the live Anthropic API and backend (not
+  mocks): asked the coach in plain English to add "Read every day," mark it
+  done for today, and delete it — all three actions executed against the
+  real database and were reflected in the regular habit list/checkbox
+  immediately, without a manual page reload, and were independently
+  confirmed via `curl` against `/api/habits` and
+  `/api/habits/{id}/checkins/today`.
+- **Assumptions / open questions:** None new — the request/response wire
+  format assumption flagged in the P2-1 entry held up unchanged in the
+  frontend implementation.
+- **Notes on impact (optional):**
+  - Frontend test suite is now 12/12 passing across `Habits.test.tsx`,
+    `Coach.test.tsx`, and the new `App.test.tsx`.
+  - This completes Milestone 4. Milestone 5 (P3-1, coach accuracy eval via
+    CAT Cafe) is next and not yet started.
